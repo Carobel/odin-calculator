@@ -3,28 +3,37 @@ let number1 = '';
 let operator;
 let number2 = '';
 
-function operate(num1, num2, op) {
+
+// convert globals to strings and carry out operation
+function operate(num1, op, num2) {
     num1 = Number(num1);
     num2 = Number(num2);
+
+    let result;
     switch (op) {
         case '+':
-            return add(num1, num2);
+            result = add(num1, num2);
+            break;
         case '-':
-            return subtract(num1, num2);
+            result = subtract(num1, num2);
+            break;
         case '*':
-            return multiply(num1, num2);
+            result = multiply(num1, num2);
+            break;
         case '/':
-            return divide(num1, num2);
+            result = divide(num1, num2);
+            break;
     }
+    return String(result);
 }
 
-// math operations
+// basic math operations
 function add (num1, num2) {
     return num1 + num2;
 }
 
 function subtract(num1, num2) {
-    return num1 = num2;
+    return num1 - num2;
 }
 
 function multiply(num1, num2) {
@@ -46,13 +55,40 @@ function handleDigit(digit) {
     }
 }
 
+// handle operator entry
+function handleOperator(op) {
+    // if full equation has already been entered, evaluate it before updating operator
+    if (operator && number2) {
+        const result = operate(number1, operator, number2);
+        clear();
+        handleDigit(result);
+    }
+    operator = op;
+}
+
+// handle = entry
+function handleEquals() {
+    if (number1 && operator && number2) {
+        const result = operate(number1, operator, number2);
+        updateDisplay(result);
+    }
+}
+
 // update display
 function updateDisplay(num) {
     display = document.querySelector('#display');
     display.textContent = num;
 }
 
-// buttons event listener
+// clear everything
+function clear() {
+    number1 = '';
+    operator = null;
+    number2 = '';
+    updateDisplay('');
+}
+
+// handle button clicks
 buttonBox = document.querySelector('#button-box');
 buttonBox.addEventListener('click', (event) => {
     const targetId = event.target.id;
@@ -60,24 +96,17 @@ buttonBox.addEventListener('click', (event) => {
     const operators = ['+','-','*','/'];
 
     if (digits.includes(targetId)) {
-        console.log('nr', targetId);
         handleDigit(targetId);
     } else if (operators.includes(targetId)) {
-        console.log('operator', targetId)
+        handleOperator(targetId);
     } else {
-        console.log('choice not implemented')
+        switch (targetId) {
+            case '=':
+                handleEquals();
+                break;
+            case 'clear':
+                clear();
+                break;
+        }
     }
-
-    // IF clicked is nr
-    // ELSE IF clicked is operant
-    // ELSE 
-    // SWITCH ID, all other cases
-
-
-
-    // IF class is number
-    //  IF (!operator (is not null or undefined))
-    //      add to first nr
-    //   ELSE
-    //      add to second nr
 });
