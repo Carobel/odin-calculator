@@ -1,0 +1,35 @@
+body {
+    display: flex;
+}
+
+#calculator {
+    width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgb(160,140,230);
+}
+
+#display {
+    height: 40px;
+    margin: 20px auto;
+    background-color: rgb(200,200,200);
+    text-align: right;
+}
+
+#button-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 500px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-around;
+}
+
+.calc-button {
+    padding: 20px 30px;
+    border-style: none;
+    border-radius: 10px;
+}
