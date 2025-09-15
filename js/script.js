@@ -2,7 +2,8 @@
 let number1 = '';
 let operator;
 let number2 = '';
-
+let sound = true;
+const CLICK_SOUND = new Audio('bin/clicker.mp3')
 
 // convert globals to strings and carry out operation
 function operate(num1, op, num2) {
@@ -107,6 +108,17 @@ buttonBox.addEventListener('click', (event) => {
             case 'clear':
                 clear();
                 break;
+            case 'sound':
+                sound = !sound;
+                break;
         }
     }
+        if (sound) {
+        playClickSound();
+    }
 });
+
+//Play clicking sound
+function playClickSound() {
+    CLICK_SOUND.play();
+}
