@@ -2,6 +2,7 @@
 let number1 = '';
 let operator;
 let number2 = '';
+
 let sound = true;
 const CLICK_SOUND = new Audio('bin/clicker.mp3')
 
