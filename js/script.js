@@ -4,11 +4,15 @@ let operator;
 let number2 = '';
 let result;
 
-let sound = true;
+
 const CLICK_SOUND = new Audio('bin/clicker.mp3')
+const BUTTON_SOUND = new Audio('bin/button.mp3')
+const MEOW_SOUND = new Audio('bin/meow.mp3')
+let sound = CLICK_SOUND;
 
 // convert globals to strings and carry out operation
 function operate(num1, op, num2) {
+    // cast to Number
     num1 = Number(num1);
     num2 = Number(num2);
 
@@ -27,6 +31,13 @@ function operate(num1, op, num2) {
             result = divide(num1, num2);
             break;
     }
+
+    // round if float
+    if (!Number.isInteger(result)) {
+        result = round(result);
+    }
+
+    // cast to String and return
     return String(result);
 }
 
@@ -47,7 +58,12 @@ function divide(num1, num2) {
     return num2 == 0 ? 'Nice try.' : num1 / num2;
 }
 
-// handle digit entry
+// rounds the nr 
+function round(float) {
+    return float.toFixed(2);
+}
+
+// handle digit entry (or decimal point)
 function handleDigit(digit) {
     const limit = 15;
     
@@ -134,17 +150,26 @@ buttonBox.addEventListener('click', (event) => {
             case 'clear':
                 clear();
                 break;
-            case 'sound':
-                sound = !sound;
+            case 'sound1':
+                sound = CLICK_SOUND
+                break;
+            case 'sound2':
+                sound = BUTTON_SOUND
+                break;
+            case 'sound3':
+                sound = MEOW_SOUND
+                break;
+            case 'dot':
+                handleDigit('.');
                 break;
         }
     }
-        if (sound) {
-        playClickSound();
-    }
+
+    playClickSound();
+
 });
 
 //Play clicking sound
 function playClickSound() {
-    CLICK_SOUND.play();
+    sound.play();
 }
