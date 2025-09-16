@@ -2,6 +2,7 @@
 let number1 = '';
 let operator;
 let number2 = '';
+let result;
 
 let sound = true;
 const CLICK_SOUND = new Audio('bin/clicker.mp3')
@@ -48,6 +49,10 @@ function divide(num1, num2) {
 
 // handle digit entry
 function handleDigit(digit) {
+    // if digit is pressed after displaying result, wipe and start anew
+    if (result) {
+        clear();
+    }
     if (!operator) {
         number1 += digit;
         updateDisplay(number1);
@@ -61,17 +66,28 @@ function handleDigit(digit) {
 function handleOperator(op) {
     // if full equation has already been entered, evaluate it before updating operator
     if (operator && number2) {
-        const result = operate(number1, operator, number2);
+        res = operate(number1, operator, number2);
         clear();
-        handleDigit(result);
+        handleDigit(res);
+        operator = op;
+    // handle unary minus before one of the nrs
+    } else if (op == '-' && !number1) {
+        number1 += op;
+        updateDisplay(number1);
+    } else if (op == '-' && number1 && operator) {
+        number2 += op;
+        updateDisplay(number2);
+    // handle normal case where operator is put between the two numbers
+    } else {
+        operator = op;
     }
-    operator = op;
+    
 }
 
 // handle = entry
 function handleEquals() {
     if (number1 && operator && number2) {
-        const result = operate(number1, operator, number2);
+        result = operate(number1, operator, number2);
         updateDisplay(result);
     }
 }
@@ -87,6 +103,7 @@ function clear() {
     number1 = '';
     operator = null;
     number2 = '';
+    result = null;
     updateDisplay('');
 }
 
