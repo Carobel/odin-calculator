@@ -49,16 +49,24 @@ function divide(num1, num2) {
 
 // handle digit entry
 function handleDigit(digit) {
+    const limit = 15;
+    
     // if digit is pressed after displaying result, wipe and start anew
     if (result) {
         clear();
     }
+    // add digit to correct variable
     if (!operator) {
-        number1 += digit;
-        updateDisplay(number1);
+        if (number1.length <= limit) {
+            number1 += digit;
+            updateDisplay(number1);
+        }
+
     } else {
-        number2 += digit;
-        updateDisplay(number2);
+        if (number2.length <= limit) {
+            number2 += digit;
+            updateDisplay(number2);
+        }
     }
 }
 
